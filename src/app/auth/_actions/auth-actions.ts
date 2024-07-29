@@ -60,9 +60,6 @@ export const signUpAction = async (values: z.infer<typeof signUpSchema>) => {
 };
 
 export const signInAction = async (values: z.infer<typeof signInSchema>) => {
-  //add 5 sec delay
-  await new Promise((resolve) => setTimeout(resolve, 4000));
-
   const validatedFields = signInSchema.safeParse(values);
 
   if (validatedFields.error) {

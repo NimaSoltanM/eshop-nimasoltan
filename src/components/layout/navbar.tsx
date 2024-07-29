@@ -1,12 +1,23 @@
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Avatar } from "../ui/avatar";
 import { NavigationMenuComp } from "./navigation-menu-comp";
 import { db } from "@/server/db";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { getUser } from "@/lib/auth/lucia-helper";
+import LogoutMenuItem from "./logout-menu-item";
 
 export default async function Navbar() {
   const catgories = await db.query.categories.findMany();
+
+  const user = await getUser();
 
   return (
     <header className="mb-4 flex h-20 w-full shrink-0 items-center border-b px-4 md:px-10">
@@ -67,8 +78,28 @@ export default async function Navbar() {
           </Button>
         </nav>
       </div>
-      <div className="ml-auto">
-        <Avatar />
+      <div className="gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="capitalize">
+                {user?.username}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <LogoutMenuItem />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button asChild>
+            <Link href="/auth/signup">Sign up/in</Link>
+          </Button>
+        )}
       </div>
     </header>
   );

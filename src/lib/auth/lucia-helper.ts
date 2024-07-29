@@ -5,6 +5,7 @@ import { lucia } from "./lucia";
 import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
 import { userTable } from "@/server/db/schema";
+import { redirect } from "next/navigation";
 
 export const getUser = async () => {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
@@ -44,4 +45,14 @@ export const getUser = async () => {
   });
 
   return dbUser;
+};
+
+export const logOut = () => {
+  const sessionCookie = lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes,
+  );
+  return redirect("/auth");
 };

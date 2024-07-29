@@ -44,7 +44,7 @@ export default function SignUpPage() {
       if (res?.error) {
         toast.error(res.error);
       } else {
-        router.push("/user/dashboard");
+        router.push("/user");
       }
     });
   }
