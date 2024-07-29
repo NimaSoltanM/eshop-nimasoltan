@@ -46,6 +46,7 @@ export type Product = typeof products.$inferSelect;
 export const userTable = createTable("user", {
   id: text("id").notNull().primaryKey(),
   username: text("username").notNull(),
+  emailIsVerified: int("email_is_verified", { mode: "boolean" }).default(false),
   email: text("email").notNull(),
   hashedPassword: text("hashed_password").notNull(),
   role: text("role").notNull(),
