@@ -27,12 +27,12 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import type { Category } from "@/server/db/schema";
-import { addProductAction } from "../products/add-product/addProductAction";
+import { addProductAction } from "./add-product/addProductAction";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import SubmitButton from "@/components/shared/submit-button";
 import { useTransition } from "react";
-export default function AddProcutForm({
+export default function ProductForm({
   categories,
 }: {
   categories: Category[];

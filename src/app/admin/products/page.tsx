@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
-import { DataTable } from "../_components/data-table/admin/products/data-table";
-import { columns } from "../_components/data-table/admin/products/columns";
+import { DataTable } from "@/components/shared/data-table";
+import { columns } from "./columns";
 
 export default async function ProductPage() {
   const products = await db.query.products.findMany({});
