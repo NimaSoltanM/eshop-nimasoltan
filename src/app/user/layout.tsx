@@ -1,6 +1,6 @@
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
-import { user_links } from "@/constants/user";
+import { user_links } from "@/lib/constants/user";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

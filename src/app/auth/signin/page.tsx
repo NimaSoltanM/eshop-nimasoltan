@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signInSchema } from "@/schemas/auth";
+import { signInSchema } from "@/lib/schemas/auth";
 import { z } from "zod";
 
 import {

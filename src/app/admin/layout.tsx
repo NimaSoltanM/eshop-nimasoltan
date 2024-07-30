@@ -1,6 +1,6 @@
 import Header from "@/components/layout/header";
 import SideBar from "@/components/layout/sidebar";
-import { admin_links } from "@/constants/admin";
+import { admin_links } from "@/lib/constants/admin";
 
 type Props = { children: React.ReactNode };
 export default function AdminLayout({ children }: Props) {

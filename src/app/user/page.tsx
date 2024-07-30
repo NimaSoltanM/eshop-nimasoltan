@@ -1,16 +1,15 @@
 import { getUser } from "@/lib/auth/lucia-helper";
-import { redirect } from "next/navigation";
+import EmailVerificationError from "./_components/email-verification-error";
 
 export default async function UserMainPage() {
   const user = await getUser();
 
-  if (!user) {
-    redirect("/auth/signin");
-  }
+  const isVerified = user?.emailIsVerified;
 
   return (
     <div>
-      <h1>hello dear {user.username}</h1>
+      {!isVerified ? <EmailVerificationError /> : null}
+      <h1>hello dear {user?.username}</h1>
     </div>
   );
 }

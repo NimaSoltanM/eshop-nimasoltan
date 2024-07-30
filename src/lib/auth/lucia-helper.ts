@@ -41,6 +41,7 @@ export const getUser = async () => {
       username: true,
       email: true,
       role: true,
+      emailIsVerified: true,
     },
   });
 

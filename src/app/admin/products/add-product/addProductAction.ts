@@ -1,7 +1,7 @@
 "use server";
 
 import { slugifyString } from "@/lib/utils";
-import { addProcuctSchema } from "@/schemas/products";
+import { addProcuctSchema } from "@/lib/schemas/products";
 import { db } from "@/server/db";
 import { categories, products } from "@/server/db/schema";
 import { eq } from "drizzle-orm";

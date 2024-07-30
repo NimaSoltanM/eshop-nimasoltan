@@ -1,6 +1,6 @@
 "use server";
 
-import { signInSchema, signUpSchema } from "@/schemas/auth";
+import { signInSchema, signUpSchema } from "@/lib/schemas/auth";
 import { db } from "@/server/db";
 import { userTable } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
