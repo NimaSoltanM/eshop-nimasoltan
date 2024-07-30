@@ -19,3 +19,22 @@ export const formatPrice = (price: number) => {
     currency: "USD",
   });
 };
+
+export function calculateTotalWithTaxAndShipping(
+  items: { price: number; quantity: number }[],
+) {
+  const subTotal = items.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+
+  const tax = (5 / 100) * subTotal;
+  const shipping = 2000;
+  const total = subTotal + tax + shipping;
+
+  return {
+    subTotal: subTotal,
+    tax: tax,
+    shipping,
+    total: total,
+  };
+}

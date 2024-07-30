@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { lucia } from "./lucia";
 import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
-import { userTable } from "@/server/db/schema";
+import { carts, userTable } from "@/server/db/schema";
 import { redirect } from "next/navigation";
 
 export const getUser = async () => {
@@ -38,6 +38,7 @@ export const getUser = async () => {
   const dbUser = await db.query.userTable.findFirst({
     where: eq(userTable.id, session.userId),
     columns: {
+      id: true,
       username: true,
       email: true,
       role: true,
@@ -46,6 +47,23 @@ export const getUser = async () => {
   });
 
   return dbUser;
+};
+
+export const getUserMetadata = async (options: { includeCart?: boolean }) => {
+  const basicUser = await getUser();
+
+  if (!basicUser) {
+    return null;
+  }
+
+  if (options.includeCart) {
+    const cart = await db.query.carts.findFirst({
+      where: eq(carts.userId, basicUser.id),
+      with: { items: { with: { product: true } } },
+    });
+
+    return cart;
+  }
 };
 
 export const logOut = () => {

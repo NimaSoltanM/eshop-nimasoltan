@@ -1,11 +1,27 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { relations, sql } from "drizzle-orm";
-import { index, int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
+import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
 
 export const createTable = sqliteTableCreator((name) => `eshop_${name}`);
 
+// auth
+export const userTable = createTable("user", {
+  id: text("id").notNull().primaryKey(),
+  username: text("username").notNull(),
+  emailIsVerified: int("email_is_verified", { mode: "boolean" }).default(false),
+  email: text("email").notNull(),
+  hashedPassword: text("hashed_password").notNull(),
+  role: text("role").notNull(),
+});
+
+export const sessionTable = createTable("session", {
+  id: text("id").notNull().primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id),
+  expiresAt: int("expires_at").notNull(),
+});
+
+// products
 export const categories = createTable("category", {
   id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   name: text("name", { length: 256 }),
@@ -33,7 +49,6 @@ export const products = createTable("product", {
   updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
     () => new Date(),
   ),
-
   categoryId: int("category_id").references(() => categories.id, {
     onDelete: "cascade",
     onUpdate: "cascade",
@@ -42,38 +57,72 @@ export const products = createTable("product", {
 
 export type Product = typeof products.$inferSelect;
 
-//auth
-export const userTable = createTable("user", {
-  id: text("id").notNull().primaryKey(),
-  username: text("username").notNull(),
-  emailIsVerified: int("email_is_verified", { mode: "boolean" }).default(false),
-  email: text("email").notNull(),
-  hashedPassword: text("hashed_password").notNull(),
-  role: text("role").notNull(),
-});
+export type User = typeof userTable.$inferSelect;
 
-export const sessionTable = createTable("session", {
-  id: text("id").notNull().primaryKey(),
+// cart
+export const carts = createTable("cart", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),
-  expiresAt: int("expires_at").notNull(),
+  createdAt: int("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
+    () => new Date(),
+  ),
 });
 
-export type User = typeof userTable.$inferSelect;
+export type Cart = typeof carts.$inferSelect;
 
-//Realtions
-export const categoriesRelations = relations(categories, ({ many }) => {
-  return {
-    products: many(products),
-  };
+export const cartItems = createTable("cart_item", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  quantity: int("quantity", { mode: "number" }).notNull(),
+  productId: int("product_id").references(() => products.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+  cartId: int("cart_id").references(() => carts.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+  createdAt: int("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
+    () => new Date(),
+  ),
 });
 
-export const productsRelations = relations(products, ({ one, many }) => {
-  return {
-    category: one(categories, {
-      fields: [products.categoryId],
-      references: [categories.id],
-    }),
-  };
-});
+export type CartItem = typeof cartItems.$inferSelect;
+
+// Relations
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  products: many(products),
+}));
+
+export const productsRelations = relations(products, ({ one }) => ({
+  category: one(categories, {
+    fields: [products.categoryId],
+    references: [categories.id],
+  }),
+}));
+
+export const cartRelations = relations(carts, ({ one, many }) => ({
+  user: one(userTable, {
+    fields: [carts.userId],
+    references: [userTable.id],
+  }),
+  items: many(cartItems),
+}));
+
+export const cartItemRelations = relations(cartItems, ({ one }) => ({
+  cart: one(carts, {
+    fields: [cartItems.cartId],
+    references: [carts.id],
+  }),
+  product: one(products, {
+    fields: [cartItems.productId],
+    references: [products.id],
+  }),
+}));

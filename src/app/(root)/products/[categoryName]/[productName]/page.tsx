@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarera";
 import { deSlugifyString, formatPrice } from "@/lib/utils";
@@ -16,6 +14,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import CartButton from "./cart-button";
 
 interface props {
   params: { productName: string };
@@ -70,7 +69,7 @@ export default async function ProductDetailPage({
               </div>
             </div>
             <div className="flex flex-col gap-2 lg:flex-row">
-              <Button size="lg">Add to cart</Button>
+              <CartButton id={product.id} />
               <Button size="lg" variant="outline">
                 Add to wishlist
               </Button>
