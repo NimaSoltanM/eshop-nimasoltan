@@ -21,6 +21,16 @@ export const sessionTable = createTable("session", {
   expiresAt: int("expires_at").notNull(),
 });
 
+export const verifyEmailTokens = createTable("verify_email_tokens", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  userId: text("user_id")
+    .references(() => userTable.id, { onDelete: "cascade" })
+    .unique()
+    .notNull(),
+  token: text("token"),
+  tokenExpiresAt: int("token_expires_at", { mode: "timestamp" }).notNull(),
+});
+
 // products
 export const categories = createTable("category", {
   id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
@@ -124,5 +134,17 @@ export const cartItemRelations = relations(cartItems, ({ one }) => ({
   product: one(products, {
     fields: [cartItems.productId],
     references: [products.id],
+  }),
+}));
+
+//auth
+export const userRelations = relations(userTable, ({ many }) => ({
+  verifyEmailTokens: many(verifyEmailTokens),
+}));
+
+export const verifyEmailRelations = relations(verifyEmailTokens, ({ one }) => ({
+  user: one(userTable, {
+    fields: [verifyEmailTokens.userId],
+    references: [userTable.id],
   }),
 }));

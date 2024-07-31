@@ -3,9 +3,11 @@
 import { cookies } from "next/headers";
 import { lucia } from "./lucia";
 import { db } from "@/server/db";
-import { eq } from "drizzle-orm";
-import { carts, userTable } from "@/server/db/schema";
+import { carts, userTable, verifyEmailTokens } from "@/server/db/schema";
 import { redirect } from "next/navigation";
+import { TimeSpan, createDate } from "oslo";
+import { generateRandomString, alphabet } from "oslo/crypto";
+import { eq, and } from "drizzle-orm";
 
 export const getUser = async () => {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
@@ -73,5 +75,4 @@ export const logOut = () => {
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect("/auth");
 };
