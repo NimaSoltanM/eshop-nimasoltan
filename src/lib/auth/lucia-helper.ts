@@ -3,11 +3,8 @@
 import { cookies } from "next/headers";
 import { lucia } from "./lucia";
 import { db } from "@/server/db";
-import { carts, userTable, verifyEmailTokens } from "@/server/db/schema";
-import { redirect } from "next/navigation";
-import { TimeSpan, createDate } from "oslo";
-import { generateRandomString, alphabet } from "oslo/crypto";
-import { eq, and } from "drizzle-orm";
+import { carts, userTable } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export const getUser = async () => {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
@@ -16,7 +13,7 @@ export const getUser = async () => {
     return null;
   }
 
-  const { session, user } = await lucia.validateSession(sessionId);
+  const { session } = await lucia.validateSession(sessionId);
 
   if (session?.fresh) {
     const sessionCookie = lucia.createSessionCookie(session.id);

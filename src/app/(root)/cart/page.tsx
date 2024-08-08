@@ -32,7 +32,7 @@ export default async function Page() {
     }));
   }
 
-  const { total, subTotal, tax, shipping } = calculateTotalWithTaxAndShipping(
+  const { subTotal, tax, shipping } = calculateTotalWithTaxAndShipping(
     cartItemsPricesAndQuantity,
   );
 
@@ -70,17 +70,20 @@ export default async function Page() {
                           alt="Product image"
                           className="aspect-square rounded-md object-cover"
                           height="64"
-                          src={cartItem.product?.imageUrl}
+                          src={
+                            cartItem.product?.imageUrl ??
+                            "/images/placeholder.webp"
+                          }
                           width="64"
                         />
                         <span className="font-medium">
-                          {cartItem.product?.name}
+                          {cartItem.product?.name ?? "Loading ..."}
                         </span>
                       </div>
                     </TableCell>
 
                     <TableCell>
-                      {formatPrice(cartItem.product?.price!)}
+                      {formatPrice(cartItem.product?.price ?? 0)}
                     </TableCell>
 
                     <TableCell>
@@ -89,7 +92,7 @@ export default async function Page() {
 
                     <TableCell>
                       {formatPrice(
-                        cartItem.product?.price! * cartItem.quantity,
+                        (cartItem.product?.price ?? 0) * cartItem.quantity,
                       )}
                     </TableCell>
                   </TableRow>

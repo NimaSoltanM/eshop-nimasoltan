@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { cn, deSlugifyString, slugifyString } from "@/lib/utils";
+import { cn, slugifyString } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,30 +11,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Category } from "@/server/db/schema";
-
-const categories = [
-  {
-    title: "Smart Phones",
-    href: "/products/smart-phones",
-    description:
-      "Explore the latest and greatest in mobile technology. From flagship models to budget-friendly options, find the perfect smartphone for you.",
-  },
-  {
-    title: "Laptops",
-    href: "/products/laptops",
-    description:
-      "Discover our range of laptops, perfect for work, gaming, and everything in between. Sleek designs and powerful performance await.",
-  },
-  {
-    title: "Gaming Consoles",
-    href: "/products/gaming-consoles",
-    description:
-      "Dive into the world of gaming with our top-of-the-line consoles. Experience immersive gameplay and cutting-edge graphics.",
-  },
-];
 
 export function NavigationMenuComp({ categories }: { categories: Category[] }) {
   return (

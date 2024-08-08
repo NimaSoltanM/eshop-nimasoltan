@@ -35,7 +35,7 @@ export default function MobileFilter() {
         <div className="space-y-4 px-4">
           <div>
             <Label htmlFor="sort">Sort by</Label>
-            <Select id="sort">
+            <Select>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -49,7 +49,7 @@ export default function MobileFilter() {
           </div>
           <div>
             <Label htmlFor="filter">Filter by price</Label>
-            <Select id="filter">
+            <Select>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -63,7 +63,7 @@ export default function MobileFilter() {
           </div>
           <div>
             <Label htmlFor="availability">Availability</Label>
-            <Select id="availability">
+            <Select>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>

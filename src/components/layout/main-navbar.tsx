@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getUser } from "@/lib/auth/lucia-helper";
 import LogoutMenuItem from "./logout-menu-item";
+import { ShoppingCartIcon } from "lucide-react";
 
-export default async function Navbar() {
+export default async function MainNavbar() {
   const catgories = await db.query.categories.findMany();
 
   const user = await getUser();
-
   return (
     <header className="mb-4 flex h-20 w-full shrink-0 items-center border-b px-4 md:px-10">
       <Sheet>
@@ -80,26 +80,32 @@ export default async function Navbar() {
       </div>
       <div className="gap-4 md:ml-auto md:gap-2 lg:gap-4">
         {user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" className="capitalize">
-                {user?.username}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/user">Dashboard</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/user/setting">Setting</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <LogoutMenuItem />
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-x-4">
+            <Button variant="outline" size="icon" asChild>
+              <Link href="/cart">
+                <ShoppingCartIcon size="1.2rem" />
+              </Link>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="sm" className="capitalize">
+                  {user?.username}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/user">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/user/setting">Setting</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <LogoutMenuItem />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         ) : (
           <Button asChild>
             <Link href="/auth/signup">Sign up/in</Link>

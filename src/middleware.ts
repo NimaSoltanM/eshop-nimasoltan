@@ -1,19 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getUser } from "./lib/auth/lucia-helper";
+import { cookies } from "next/headers";
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/users")) {
-    try {
-      const user = await getUser();
+  if (request.nextUrl.pathname.startsWith("/user")) {
+    const sessionId = cookies().get("e-shop-cookie")?.value ?? null;
 
-      if (!user) {
-        return NextResponse.redirect(new URL("/auth/signup", request.url));
-      }
-
-      return NextResponse.next();
-    } catch (error) {
-      console.error("Error validating session:", error);
+    if (!sessionId) {
       return NextResponse.redirect(new URL("/auth/signup", request.url));
     }
   }
@@ -22,5 +15,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/users/:path*",
+  matcher: "/user/:path*",
 };

@@ -18,7 +18,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarera";
 import Container from "@/components/ui/container";
-import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectTrigger,
@@ -30,7 +29,6 @@ import type { Category } from "@/server/db/schema";
 import { addProductAction } from "./add-product/addProductAction";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
-import SubmitButton from "@/components/shared/submit-button";
 import { useTransition } from "react";
 export default function ProductForm({
   categories,

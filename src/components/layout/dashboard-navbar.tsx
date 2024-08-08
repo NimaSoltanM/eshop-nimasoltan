@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowDown, MenuIcon, Package2 } from "lucide-react";
+import { MenuIcon, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -27,7 +27,7 @@ interface HeaderProps {
   title: string;
 }
 
-export default async function Header({ links }: HeaderProps) {
+export default async function DashboardNavbar({ links }: HeaderProps) {
   const user = await getUser();
 
   return (

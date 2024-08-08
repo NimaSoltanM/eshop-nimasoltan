@@ -4,11 +4,6 @@ import { db } from "@/server/db";
 import { userTable, verifyEmailTokens } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { TimeSpan, createDate } from "oslo";
-import { Resend } from "resend";
-import { NextResponse } from "next/server";
-import { EmailTemplate } from "@/components/resend/email-template";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function generateEmailVerificationCode(
   userId: string,

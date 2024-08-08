@@ -41,7 +41,7 @@ export default async function ProductDetailPage({
               alt="Product Image"
               className="aspect-[1/1] w-full overflow-hidden rounded-lg border border-gray-200 object-cover dark:border-gray-800"
               height="1200"
-              src={product.imageUrl}
+              src={product.imageUrl ?? "/images/placeholder.webp"}
               width="1200"
             />
           </div>
@@ -56,7 +56,7 @@ export default async function ProductDetailPage({
             </ScrollArea>
             <div className="my-5 flex items-center justify-between">
               <div className="text-4xl font-bold">
-                {formatPrice(product.price)}
+                {formatPrice(product.price ?? 0)}
               </div>
               <div>
                 <div className="flex gap-0.5">
@@ -221,7 +221,7 @@ export default async function ProductDetailPage({
   );
 }
 
-function StarIcon(props) {
+function StarIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

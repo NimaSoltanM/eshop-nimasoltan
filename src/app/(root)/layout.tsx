@@ -1,4 +1,4 @@
-import Navbar from "@/components/layout/navbar";
+import MainNavbar from "@/components/layout/main-navbar";
 
 export default function MainLayout({
   children,
@@ -7,7 +7,7 @@ export default function MainLayout({
 }) {
   return (
     <div>
-      <Navbar />
+      <MainNavbar />
       {children}
     </div>
   );

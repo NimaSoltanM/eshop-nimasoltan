@@ -1,67 +1,51 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/utils";
-import type { Product } from "@/server/db/schema";
-import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import type { User } from "@/server/db/schema";
+import { ColumnDef } from "@tanstack/react-table";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-
-export const columns: ColumnDef<Product>[] = [
+export const UsersColumns: ColumnDef<User>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "price",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Price
+          Username
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
-      const formatted = formatPrice(price);
-
-      return formatted;
     },
   },
   {
-    accessorKey: "stock",
+    accessorKey: "role",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Stock
+          Role
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => {
-      const stock = parseFloat(row.getValue("stock"));
-
-      return <p className="pl-8">{stock}</p>;
     },
   },
 ];

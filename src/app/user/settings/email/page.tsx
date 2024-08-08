@@ -1,5 +1,4 @@
 import { getUser } from "@/lib/auth/lucia-helper";
-import { db } from "@/server/db";
 import VerifyEmail from "./verify-email";
 
 export default async function VerifyEmailPage() {
@@ -7,6 +6,10 @@ export default async function VerifyEmailPage() {
 
   if (!user?.email) {
     return <h1>Error validating email, logout and login again</h1>;
+  }
+
+  if (user.emailIsVerified) {
+    return <h1>Your email is verified</h1>;
   }
 
   return <VerifyEmail email={user?.email} />;
