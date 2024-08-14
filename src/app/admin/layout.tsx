@@ -1,9 +1,17 @@
 import DashboardNavbar from "@/components/layout/dashboard-navbar";
 import SideBar from "@/components/layout/sidebar";
+import { getUser } from "@/lib/auth/lucia-helper";
 import { admin_links } from "@/lib/constants/admin";
+import { redirect } from "next/navigation";
 
 type Props = { children: React.ReactNode };
-export default function AdminLayout({ children }: Props) {
+export default async function AdminLayout({ children }: Props) {
+  const user = await getUser();
+
+  if (user?.role !== "admin") {
+    redirect("/");
+  }
+
   return (
     <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
       <SideBar links={admin_links} />

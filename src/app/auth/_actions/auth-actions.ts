@@ -8,11 +8,15 @@ import { z } from "zod";
 import { lucia } from "@/lib/auth/lucia";
 import { generateIdFromEntropySize } from "lucia";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
+import { getUser } from "@/lib/auth/lucia-helper";
 
 export const signUpAction = async (values: z.infer<typeof signUpSchema>) => {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
+  const existingUser = await getUser();
+
+  if (existingUser) {
+    return { error: "Security error" };
+  }
 
   const validatedFields = signUpSchema.safeParse(values);
 
@@ -60,6 +64,12 @@ export const signUpAction = async (values: z.infer<typeof signUpSchema>) => {
 };
 
 export const signInAction = async (values: z.infer<typeof signInSchema>) => {
+  const existingUser = await getUser();
+
+  if (existingUser) {
+    return { error: "Security error" };
+  }
+
   const validatedFields = signInSchema.safeParse(values);
 
   if (validatedFields.error) {

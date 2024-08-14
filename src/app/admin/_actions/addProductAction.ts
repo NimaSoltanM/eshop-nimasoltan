@@ -8,10 +8,17 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { getUser } from "@/lib/auth/lucia-helper";
 
 export const addProductAction = async (
   values: z.infer<typeof addProcuctSchema>,
 ) => {
+  const user = await getUser();
+
+  if (user?.role !== "admin") {
+    return { error: "unauthorized" };
+  }
+
   const validatedFields = addProcuctSchema.safeParse(values);
 
   if (validatedFields.error) {
