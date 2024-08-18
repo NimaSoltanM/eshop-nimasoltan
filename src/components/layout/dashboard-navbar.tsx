@@ -14,6 +14,7 @@ import {
 
 import BreadCrumpComp from "../shared/bread-crump-comp";
 import { getUser } from "@/lib/auth/lucia-helper";
+import LogoutMenuItem from "./logout-menu-item";
 
 interface NavLink {
   name: string;
@@ -77,10 +78,14 @@ export default async function DashboardNavbar({ links }: HeaderProps) {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/">Shop</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/user/setting">Setting</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <LogoutMenuItem />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -26,7 +26,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import type { Category } from "@/server/db/schema";
-import { addProductAction } from "../_actions/addProductAction";
+import { addProductAction } from "../../_actions/addProductAction";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { useTransition } from "react";

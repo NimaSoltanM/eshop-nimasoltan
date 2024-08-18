@@ -13,7 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getUser } from "@/lib/auth/lucia-helper";
 import LogoutMenuItem from "./logout-menu-item";
-import { ShoppingCartIcon } from "lucide-react";
+import {
+  LayoutDashboardIcon,
+  Menu,
+  Mountain,
+  MountainIcon,
+  ShoppingCartIcon,
+} from "lucide-react";
 
 export default async function MainNavbar() {
   const catgories = await db.query.categories.findMany();
@@ -24,13 +30,13 @@ export default async function MainNavbar() {
       <Sheet>
         <SheetTrigger asChild>
           <Button className="lg:hidden" size="icon" variant="outline">
-            <MenuIcon className="h-6 w-6" />
+            <Menu className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
           <Link href="/">
-            <MountainIcon className="h-6 w-6" />
+            <Mountain className="h-6 w-6" />
             <span className="sr-only">TechShop</span>
           </Link>
           <div className="grid gap-2 py-6">
@@ -40,7 +46,6 @@ export default async function MainNavbar() {
             >
               Home
             </Link>
-            <NavigationMenuComp categories={catgories} />
             <Link
               className="flex w-full items-center py-2 text-lg font-semibold"
               href="/about"
@@ -81,6 +86,14 @@ export default async function MainNavbar() {
       <div className="gap-4 md:ml-auto md:gap-2 lg:gap-4">
         {user ? (
           <div className="flex items-center gap-x-4">
+            {user.role === "admin" && (
+              <Button variant="link" asChild className="max-sm:hidden">
+                <Link href="/admin">
+                  <LayoutDashboardIcon className="mr-2 h-4 w-4" /> Admin
+                  Dashboard
+                </Link>
+              </Button>
+            )}
             <Button variant="outline" size="icon" asChild>
               <Link href="/cart">
                 <ShoppingCartIcon size="1.2rem" />
@@ -113,45 +126,5 @@ export default async function MainNavbar() {
         )}
       </div>
     </header>
-  );
-}
-
-function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  );
-}
-
-function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
   );
 }

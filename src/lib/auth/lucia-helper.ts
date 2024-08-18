@@ -73,3 +73,13 @@ export const logOut = () => {
     sessionCookie.attributes,
   );
 };
+
+export const isAdmin = async () => {
+  const user = await getUser();
+
+  if (user?.role === "admin") {
+    return true;
+  }
+
+  return false;
+};
