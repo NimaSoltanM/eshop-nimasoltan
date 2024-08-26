@@ -105,8 +105,8 @@ export const ProductColums: ColumnDef<Product>[] = [
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
-                    variant="ghost"
-                    className="flex w-full content-start"
+                    variant="destructive"
+                    className="w-full cursor-default pr-16 text-left"
                     size="sm"
                   >
                     Delete

@@ -5,6 +5,7 @@ import { lucia } from "./lucia";
 import { db } from "@/server/db";
 import { carts, userTable } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export const getUser = async () => {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
@@ -72,6 +73,7 @@ export const logOut = () => {
     sessionCookie.value,
     sessionCookie.attributes,
   );
+  redirect("/");
 };
 
 export const isAdmin = async () => {

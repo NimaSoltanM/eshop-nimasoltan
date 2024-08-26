@@ -33,7 +33,7 @@ export const addProductAction = async (
     description,
     imageUrl,
     stock,
-    price: price * 100,
+    price: price,
     categoryId,
   });
 
